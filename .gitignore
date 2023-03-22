@@ -1,0 +1,9 @@
+.idea/
+
+*.pt
+*.pth
+*.pyc
+*.onnx
+*.tflite
+
+**/__pycache__/**
