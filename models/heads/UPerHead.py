@@ -224,7 +224,6 @@ class M_PPM(nn.ModuleList):
         ppm_outs = []
         for ppm in self:
             ppm_out = ppm(x)
-            # upsampled_ppm_out = Upsample(ppm_out, size=x.size()[2:])
             upsampled_ppm_out = F.interpolate(ppm_out, size=x.size()[2:], mode='bilinear', align_corners=False)
             ppm_outs.append(upsampled_ppm_out)
         return ppm_outs
@@ -328,7 +327,6 @@ class M_UPerHead(BaseDecodeHead):
         # append psp feature
         fpn_outs.append(laterals[-1])
         for i in range(used_backbone_levels - 1, 0, -1):
-            # fpn_outs[i] = Upsample(fpn_outs[i], size=fpn_outs[0].shape[2:])
             fpn_outs[i] = F.interpolate(fpn_outs[i], size=fpn_outs[0].shape[2:], mode='bilinear', align_corners=False)
 
         fpn_outs = torch.cat(fpn_outs, dim=1)

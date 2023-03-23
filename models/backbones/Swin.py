@@ -386,7 +386,8 @@ class BasicLayer(nn.Module):
         attn_mask = attn_mask.masked_fill(attn_mask != 0, float(-100.0)).masked_fill(attn_mask == 0, float(0.0))
 
         for blk in self.blocks:
-            blk.H, blk.W = H, W
+            blk.H = H
+            blk.W = W
             x = blk(x, attn_mask)
         if self.downsample is not None:
             x_down = self.downsample(x, H, W)
@@ -605,7 +606,6 @@ class SwinTransformer(nn.Module):
             x_out, H, W, x, Wh, Ww = layer(x, Wh, Ww)
 
             if idx in self.out_indices:
-                # norm_layer = self.norm_layer_list[idx]
                 x_out = norm_layer(x_out)
 
                 out = x_out.view(-1, H, W, self.num_features[idx]).permute(0, 3, 1, 2).contiguous()
